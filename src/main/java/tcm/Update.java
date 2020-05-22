@@ -61,7 +61,7 @@ public class Update extends Input{
 
 
 		//作成したサブフォルダにindファイルを作成
-		indFileName = SLASH + c1 + UNDERBAR + P + id + IND;
+		indFileName = SLASH + U + UNDERBAR + c1 + UNDERBAR + P + id + UNDERBAR + SERIAL + IND;
 		File indFile = new File(args[0] + indFileName);
 		indFile.createNewFile();
 
