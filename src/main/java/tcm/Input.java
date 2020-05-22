@@ -38,7 +38,7 @@ public class Input {
 		//引数なしの時引数指定を促し処理を終了
 		if (args.length == 0){
 			System.out.println("第一引数にフォルダを指定してください。処理を終了します。");
-			System.exit(1);
+			return;
 		}
 
 		//application.propertiesファイルを呼び出しておく
@@ -129,10 +129,11 @@ public class Input {
 			properties.setProperty("unique", proUniqueNumber);
 		}
 		//ユニークインデックスを書き換える
-		FileOutputStream out = new FileOutputStream("application.properties");
-		properties.store(out , "");
+		try(FileOutputStream out = new FileOutputStream("application.properties")){
+			properties.store(out , "");
+		}
 
-
+		
 		//作成したCSVファイルを読み込む
 		try(BufferedReader reader  = new BufferedReader(new FileReader(csvFile))) {
 			log.info(reader.readLine());

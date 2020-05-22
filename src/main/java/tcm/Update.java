@@ -16,13 +16,13 @@ public class Update extends Input{
 		//引数なしの時引数指定を促し処理を終了
 		if (args.length < 4){
 			System.out.println("第一引数にフォルダを指定、第二引数「Pxxx」、第三引数「0~99999」の数字、第四引数文字列を指定してください。処理を終了します。");
-			System.exit(1);
+			return;
 		}
 		try {
 			number = Integer.parseInt(args[2]);
 		} catch (NumberFormatException e) {
 			System.err.println("引数指定の誤り：第1引数は整数値を指定します。");
-			System.exit(1);
+			return;
 		}
 		if(number < 0 || number > 999999) {
 			System.err.println("第三引数は0~99999の数字です");
