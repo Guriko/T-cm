@@ -24,7 +24,7 @@ public class Update extends Input{
 			System.err.println("引数指定の誤り：第1引数は整数値を指定します。");
 			return;
 		}
-		if(number < 0 || number > 999999) {
+		if(number < 0 || number > 99999) {
 			System.err.println("第三引数は0~99999の数字です");
 			return;
 		}
