@@ -61,12 +61,12 @@ public class Delete extends Input{
 		
 		//作成したサブフォルダにcsvファイルを作成
 		csvFileName = Const.SLASH + D + Const.UNDERBAR + c1 + Const.UNDERBAR + Const.P + id + Const.UNDERBAR + Const.SERIAL + Const.CSV;
-		File csvFile = new File(args[0] + csvFileName);
+		File csvFile = new File(subDirName + csvFileName);
 		csvFile.createNewFile();
 		
 		
 		//作成したサブフォルダにindファイルを作成
-		indFileName =args[0] +  Const.SLASH + c1 + Const.UNDERBAR + Const.P + id + Const.IND;
+		indFileName =subDirName +  Const.SLASH + c1 + Const.UNDERBAR + Const.P + id + Const.IND;
 		if(!util.MkIndFile(indFileName)) {
 			return;
 		}

@@ -73,19 +73,19 @@ public class Input {
 		//作成したサブフォルダにpdfファイルを作成
 		pdfChengeName = Const.SLASH + c1 + Const.UNDERBAR + Const.P + id + Const.PDF;
 		File propertiPdf = new File(proPdf);
-		File newPdfFile = new File(args[0] + pdfChengeName);
+		File newPdfFile = new File(subDirName + pdfChengeName);
 		propertiPdf.renameTo(newPdfFile);
 		newPdfFile.createNewFile();
 
 
 		//作成したサブフォルダにcsvファイルを作成
 		csvFileName = Const.SLASH + c1 + Const.UNDERBAR + Const.P + id + Const.CSV;
-		File csvFile = new File(args[0] + csvFileName);
+		File csvFile = new File(subDirName + csvFileName);
 		csvFile.createNewFile();
 
 		
 		//作成したサブフォルダにindファイルを作成
-		indFileName =args[0] +  Const.SLASH + c1 + Const.UNDERBAR + Const.P + id + Const.IND;
+		indFileName =subDirName +  Const.SLASH + c1 + Const.UNDERBAR + Const.P + id + Const.IND;
 		if(!util.MkIndFile(indFileName)) {
 			return;
 		}
