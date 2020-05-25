@@ -7,6 +7,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 
+import tcm.commons.Const;
+import tcm.commons.Utils;
+
 public class Delete extends Input{
 	
 	private static final String D = "D";
@@ -30,6 +33,8 @@ public class Delete extends Input{
 	    	return;
 	    }
 
+	    Utils util = new Utils();
+	    
 		String subDirName = "";
 		String csvFileName = "";
 		String indFileName = "";
@@ -47,41 +52,41 @@ public class Delete extends Input{
 		
 		
 		//サブディレクトリ作成
-		subDirName = SLASH + D + UNDERBAR + c1 + UNDERBAR + P + id + UNDERBAR + SERIAL;
-		args[0] += subDirName;
-		File newdir = new File(args[0]);
-		if(!newdir.mkdir()) {
+		subDirName = args[0] + Const.SLASH + D + Const.UNDERBAR + c1 + Const.UNDERBAR + Const.P + id + Const.UNDERBAR + Const.SERIAL;
+		if(!util.MkSubDir(subDirName)){
 			System.out.println("サブフォルダを作成できませんでした");
 			return;
 		}
+
 		
 		//作成したサブフォルダにcsvファイルを作成
-		csvFileName = SLASH + D + UNDERBAR + c1 + UNDERBAR + P + id + UNDERBAR + SERIAL + CSV;
+		csvFileName = Const.SLASH + D + Const.UNDERBAR + c1 + Const.UNDERBAR + Const.P + id + Const.UNDERBAR + Const.SERIAL + Const.CSV;
 		File csvFile = new File(args[0] + csvFileName);
 		csvFile.createNewFile();
 		
 		
 		//作成したサブフォルダにindファイルを作成
-		indFileName = SLASH + D + UNDERBAR + c1 + UNDERBAR + P + id + UNDERBAR + SERIAL + IND;
-		File indFile = new File(args[0] + indFileName);
-		indFile.createNewFile();
+		indFileName =args[0] +  Const.SLASH + c1 + Const.UNDERBAR + Const.P + id + Const.IND;
+		if(!util.MkIndFile(indFileName)) {
+			return;
+		}
 		
 		
 		//作成したcsvファイルに内容を入れていく
 		try(FileWriter fileWriter = new FileWriter(csvFile)){
 
-			fileWriter.append(QUOTATION + args[1] + QUOTATION)
-					  .append(COMMA)
-					  .append(QUOTATION + String.format("%05d", number) + QUOTATION)
-					  .append(COMMA)
-					  .append(QUOTATION + D + QUOTATION)
-					  .append(COMMA)
-					  .append(COMMA)
-					  .append(COMMA)
-					  .append(COMMA)
-					  .append(COMMA)
-					  .append(COMMA)
-					  .append(NEW_LINE);
+			fileWriter.append(Const.QUOTATION + args[1] + Const.QUOTATION)
+					  .append(Const.COMMA)
+					  .append(Const.QUOTATION + String.format("%05d", number) + Const.QUOTATION)
+					  .append(Const.COMMA)
+					  .append(Const.QUOTATION + D + Const.QUOTATION)
+					  .append(Const.COMMA)
+					  .append(Const.COMMA)
+					  .append(Const.COMMA)
+					  .append(Const.COMMA)
+					  .append(Const.COMMA)
+					  .append(Const.COMMA)
+					  .append(Const.NEW_LINE);
 					  
 			fileWriter.flush();
 		}

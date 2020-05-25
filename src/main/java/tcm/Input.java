@@ -14,24 +14,14 @@ import java.util.Properties;
 import java.util.Random;
 
 import lombok.extern.slf4j.Slf4j;
+import tcm.commons.Const;
+import tcm.commons.Utils;
 @Slf4j
 public class Input {
 	
 	private static final String R = "R";
 	
-	public static final String NEW_LINE = "\r\n";
-	public static final String COMMA = ",";
-	public static final String SLASH = "\\";
-	public static final String QUOTATION = "\"";
-	public static final String P = "P";
-	public static final String UNDERBAR = "_";
-	public static final String PDF = ".pdf";
-	public static final String CSV = ".csv";
-	public static final String IND = ".ind";
-	public static final String SERIAL = "000";
-	public static final String SOLID1 = "テスト";
-	public static final String SOLID2 = "分類1";
-	public static final String SOLID3 = "登録";
+
 	
 	public static void main(String[] args) throws IOException {
 
@@ -48,6 +38,8 @@ public class Input {
 			properties.load(istream);			
 		}
 
+		Utils util = new Utils();
+		
 		String subDirName = "";
 		String csvFileName = "";
 		String indFileName = "";
@@ -71,17 +63,15 @@ public class Input {
 
 
 		//サブディレクトリ作成
-		subDirName = SLASH + R + UNDERBAR + c1 + UNDERBAR + P + id + UNDERBAR + SERIAL;
-		args[0] += subDirName;
-		File newdir = new File(args[0]);
-		if(!newdir.mkdir()) {
+		subDirName = args[0] + Const.SLASH + R + Const.UNDERBAR + c1 + Const.UNDERBAR + Const.P + id + Const.UNDERBAR + Const.SERIAL;
+		if(!util.MkSubDir(subDirName)) {
 			System.out.println("サブフォルダを作成できませんでした");
 			return;
 		}
 
 
 		//作成したサブフォルダにpdfファイルを作成
-		pdfChengeName = SLASH + c1 + UNDERBAR + P + id + PDF;
+		pdfChengeName = Const.SLASH + c1 + Const.UNDERBAR + Const.P + id + Const.PDF;
 		File propertiPdf = new File(proPdf);
 		File newPdfFile = new File(args[0] + pdfChengeName);
 		propertiPdf.renameTo(newPdfFile);
@@ -89,32 +79,35 @@ public class Input {
 
 
 		//作成したサブフォルダにcsvファイルを作成
-		csvFileName = SLASH + c1 + UNDERBAR + P + id + CSV;
+		csvFileName = Const.SLASH + c1 + Const.UNDERBAR + Const.P + id + Const.CSV;
 		File csvFile = new File(args[0] + csvFileName);
 		csvFile.createNewFile();
 
+		
 		//作成したサブフォルダにindファイルを作成
-		indFileName = SLASH + c1 + UNDERBAR + P + id + IND;
-		File indFile = new File(args[0] + indFileName);
-		indFile.createNewFile();
+		indFileName =args[0] +  Const.SLASH + c1 + Const.UNDERBAR + Const.P + id + Const.IND;
+		if(!util.MkIndFile(indFileName)) {
+			return;
+		}
+		
 
 		//作成したcsvファイルに内容を入れていく
 		try(FileWriter fileWriter = new FileWriter(csvFile)){
 
-			fileWriter.append(QUOTATION + P + id + QUOTATION)
-					  .append(COMMA)
-					  .append(QUOTATION + c2 + QUOTATION)
-					  .append(COMMA)
-					  .append(QUOTATION + SOLID1 + QUOTATION)
-					  .append(COMMA)
-					  .append(QUOTATION + SOLID2 + QUOTATION)
-					  .append(COMMA)
-					  .append(QUOTATION + SOLID3 + c1 + QUOTATION)
-					  .append(COMMA)
-					  .append(QUOTATION + c1 + UNDERBAR + P + id + PDF + QUOTATION)
-					  .append(COMMA)
-					  .append(QUOTATION + String.format("%05d", uniqueNumber) + QUOTATION)
-					  .append(NEW_LINE);
+			fileWriter.append(Const.QUOTATION + Const.P + id + Const.QUOTATION)
+					  .append(Const.COMMA)
+					  .append(Const.QUOTATION + c2 + Const.QUOTATION)
+					  .append(Const.COMMA)
+					  .append(Const.QUOTATION + Const.SOLID1 + Const.QUOTATION)
+					  .append(Const.COMMA)
+					  .append(Const.QUOTATION + Const.SOLID2 + Const.QUOTATION)
+					  .append(Const.COMMA)
+					  .append(Const.QUOTATION + Const.SOLID3 + c1 + Const.QUOTATION)
+					  .append(Const.COMMA)
+					  .append(Const.QUOTATION + c1 + Const.UNDERBAR + Const.P + id + Const.PDF + Const.QUOTATION)
+					  .append(Const.COMMA)
+					  .append(Const.QUOTATION + String.format("%05d", uniqueNumber) + Const.QUOTATION)
+					  .append(Const.NEW_LINE);
 
 			fileWriter.flush();
 		}
