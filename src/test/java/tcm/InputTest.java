@@ -33,10 +33,10 @@ class InputTest extends Input{
 				"サブフォルダを作成できませんでした"));
 		baos.reset();
 		
+		
 		main(new String[] {"C:\\location"});
 		
 		System.setOut(so);
 		System.out.println(baos.toString());
 	}
-
 }
