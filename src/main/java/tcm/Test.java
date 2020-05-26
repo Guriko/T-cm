@@ -1,5 +1,8 @@
 package tcm;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -7,20 +10,25 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Test {
 	public static void main(String...args) throws IOException {
-//		Properties settings = new Properties();
-//		settings.setProperty("country", "USA");
-//		settings.setProperty("lang", "English");
-//
-//		FileOutputStream out = null;
-//
-//		out = new FileOutputStream("application.properties");
-//		settings.store(out, "Foo Properties");
-        System.out.println(String.format("%06d", 1));
-		System.out.println(String.format("%06d", 12));
-		System.out.println(String.format("%06d", 123));
-		System.out.println(String.format("%06d", 0));
-		System.out.println(String.format("%06d", 123456));
+		Path sourcePath = Paths.get(".\\foo.pdf");
+		Path destinationPath = Paths.get(".\\logs\\bar.pdf");
 
+		try {
+			Files.copy(sourcePath,destinationPath);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		//
 		log.info("Hello World");
+		//		String pOld = ".\\cbd.txt";
+		//		Path path = Paths.get(pOld);
+		//		Path sPath = Paths.get(".\\");
+		//		
+		//		//Files.copy(path, sPath);
+		//		
+		//		
+		//		File fOld = new File(".\\abc.txt");
+		//		File fNew = new File(".\\logs\\cbd.txt");
+		//		Files.move(fOld,fNew);
 	}
 }

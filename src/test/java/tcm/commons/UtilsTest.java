@@ -11,14 +11,13 @@ class UtilsTest {
 	
 	@Test
 	void Utilsクラス() throws IOException {
-		Utils util = new Utils();
-		assertEquals(true, util.MkSubDir("C:\\location" +Const.SLASH + Const.UNDERBAR +  Const.UNDERBAR + Const.P + Const.UNDERBAR + Const.SERIAL));
+		assertEquals(true, Utils.mkSubDir("C:\\location" +Const.SLASH + Const.UNDERBAR +  Const.UNDERBAR + Const.P + Const.UNDERBAR + Const.SERIAL));
 		
-		assertEquals(false, util.MkSubDir("C:\\location"));
+		assertEquals(false, Utils.mkSubDir("C:\\location"));
 		
-		assertEquals(false, util.MkIndFile("C:\\location"));
+		assertEquals(false, Utils.mkFile("C:\\location"));
 		
-		assertEquals(true, util.MkIndFile("C:\\location" + "\\abc.ind"));
+		assertEquals(true, Utils.mkFile("C:\\location" + "\\abc.ind"));
 	}
 
 }

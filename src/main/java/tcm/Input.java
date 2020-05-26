@@ -8,21 +8,19 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Properties;
-import java.util.Random;
 
 import lombok.extern.slf4j.Slf4j;
 import tcm.commons.Const;
 import tcm.commons.Utils;
 @Slf4j
 public class Input {
-	
-	private static final String R = "R";
-	
 
-	
+	private static final String R = "R";
+
 	public static void main(String[] args) throws IOException {
 
 		//引数なしの時引数指定を促し処理を終了
@@ -38,76 +36,69 @@ public class Input {
 			properties.load(istream);			
 		}
 
-		Utils util = new Utils();
-		
 		String subDirName = "";
 		String csvFileName = "";
 		String indFileName = "";
-		String pdfChengeName = "";
-		String proPdf = properties.getProperty("pdffile");
+		Path pdfFile = Paths.get(".\\foo.pdf");
 		String proUniqueNumber = properties.getProperty("unique");
 		int uniqueNumber = Integer.parseInt(proUniqueNumber);
 
 		//日付取得
-		Date d = new Date(); 
-		SimpleDateFormat d1 = new SimpleDateFormat("yyyyMMddHHmmss");
-		SimpleDateFormat d2 = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		String c1 = d1.format(d); 
-		String c2 = d2.format(d); 
-
+		String c1 = Utils.getDate();
+		String c2 = Utils.getDate2();
 
 		//100~999のランダムな数字を取得
-		Random random = new Random();
-		int randomValue = random.nextInt(900) + 100;
-		String id = Integer.toString(randomValue);
-
+		String id = Utils.getRandom();
 
 		//サブディレクトリ作成
 		subDirName = args[0] + Const.SLASH + R + Const.UNDERBAR + c1 + Const.UNDERBAR + Const.P + id + Const.UNDERBAR + Const.SERIAL;
-		if(!util.MkSubDir(subDirName)) {
+		if(!Utils.mkSubDir(subDirName)) {
 			System.out.println("サブフォルダを作成できませんでした");
 			return;
 		}
 
 
 		//作成したサブフォルダにpdfファイルを作成
-		pdfChengeName = Const.SLASH + c1 + Const.UNDERBAR + Const.P + id + Const.PDF;
-		File propertiPdf = new File(proPdf);
-		File newPdfFile = new File(subDirName + pdfChengeName);
-		propertiPdf.renameTo(newPdfFile);
-		newPdfFile.createNewFile();
+		Path destinationPath = Paths.get(subDirName + Const.SLASH + c1 + Const.UNDERBAR + Const.P + id + Const.PDF);
+		try {
+			Files.copy(pdfFile,destinationPath);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 
 		//作成したサブフォルダにcsvファイルを作成
-		csvFileName = Const.SLASH + c1 + Const.UNDERBAR + Const.P + id + Const.CSV;
-		File csvFile = new File(subDirName + csvFileName);
-		csvFile.createNewFile();
-
-		
-		//作成したサブフォルダにindファイルを作成
-		indFileName =subDirName +  Const.SLASH + c1 + Const.UNDERBAR + Const.P + id + Const.IND;
-		if(!util.MkIndFile(indFileName)) {
+		csvFileName = subDirName + Const.SLASH + c1 + Const.UNDERBAR + Const.P + id + Const.CSV;
+		if(!Utils.mkFile(csvFileName)) {
 			return;
 		}
-		
+
+
+		//作成したサブフォルダにindファイルを作成
+		indFileName =subDirName +  Const.SLASH + c1 + Const.UNDERBAR + Const.P + id + Const.IND;
+		if(!Utils.mkFile(indFileName)) {
+			return;
+		}
+
 
 		//作成したcsvファイルに内容を入れていく
+		File csvFile = new File(csvFileName);
 		try(FileWriter fileWriter = new FileWriter(csvFile)){
 
 			fileWriter.append(Const.QUOTATION + Const.P + id + Const.QUOTATION)
-					  .append(Const.COMMA)
-					  .append(Const.QUOTATION + c2 + Const.QUOTATION)
-					  .append(Const.COMMA)
-					  .append(Const.QUOTATION + Const.SOLID1 + Const.QUOTATION)
-					  .append(Const.COMMA)
-					  .append(Const.QUOTATION + Const.SOLID2 + Const.QUOTATION)
-					  .append(Const.COMMA)
-					  .append(Const.QUOTATION + Const.SOLID3 + c1 + Const.QUOTATION)
-					  .append(Const.COMMA)
-					  .append(Const.QUOTATION + c1 + Const.UNDERBAR + Const.P + id + Const.PDF + Const.QUOTATION)
-					  .append(Const.COMMA)
-					  .append(Const.QUOTATION + String.format("%05d", uniqueNumber) + Const.QUOTATION)
-					  .append(Const.NEW_LINE);
+			.append(Const.COMMA)
+			.append(Const.QUOTATION + c2 + Const.QUOTATION)
+			.append(Const.COMMA)
+			.append(Const.QUOTATION + Const.SOLID1 + Const.QUOTATION)
+			.append(Const.COMMA)
+			.append(Const.QUOTATION + Const.SOLID2 + Const.QUOTATION)
+			.append(Const.COMMA)
+			.append(Const.QUOTATION + Const.SOLID3 + c1 + Const.QUOTATION)
+			.append(Const.COMMA)
+			.append(Const.QUOTATION + c1 + Const.UNDERBAR + Const.P + id + Const.PDF + Const.QUOTATION)
+			.append(Const.COMMA)
+			.append(Const.QUOTATION + String.format("%05d", uniqueNumber) + Const.QUOTATION)
+			.append(Const.NEW_LINE);
 
 			fileWriter.flush();
 		}
@@ -126,7 +117,7 @@ public class Input {
 			properties.store(out , "");
 		}
 
-		
+
 		//作成したCSVファイルを読み込む
 		try(BufferedReader reader  = new BufferedReader(new FileReader(csvFile))) {
 			log.info(reader.readLine());

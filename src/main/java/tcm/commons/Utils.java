@@ -2,12 +2,14 @@ package tcm.commons;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Random;
 
 public class Utils {
 	
-	public boolean MkSubDir(String subDirName) {
-		//subDirName = SLASH + R + UNDERBAR + c1 + UNDERBAR + P + id + UNDERBAR + SERIAL;
-		//args[0] += subDirName;
+	//サブフォルダ作成
+	public static boolean mkSubDir(String subDirName) {
 		File newdir = new File(subDirName);
 		if(!newdir.mkdir()) {
 			return false;
@@ -15,12 +17,35 @@ public class Utils {
 		return true;
 	}
 	
-	public boolean MkIndFile(String indFile) throws IOException {
-		File mkindFile = new File(indFile);
-		if(!mkindFile.createNewFile()){
+	
+	//ファイル作成
+	public static boolean mkFile(String createFile) throws IOException {
+		File mkFile = new File(createFile);
+		if(!mkFile.createNewFile()){
 			return false;
 		}
 		return true;
 	}
-
+	
+	//日付獲得
+	public static String getDate() {
+		Date d = new Date();
+		SimpleDateFormat d1 = new SimpleDateFormat("yyyyMMddHHmmss");
+		String c1 = d1.format(d);
+		return c1;
+	}
+	
+	public static String getDate2() {
+		Date d = new Date();
+		SimpleDateFormat d1 = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		String c1 = d1.format(d);
+		return c1;
+	}
+	//100~999のランダム数値獲得
+	public static String getRandom() {
+		Random random = new Random();
+		int randomValue = random.nextInt(900) + 100;
+		String id = Integer.toString(randomValue);
+		return id;
+	}
 }
