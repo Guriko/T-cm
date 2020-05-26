@@ -41,9 +41,13 @@ public class Utils {
 		String c1 = d1.format(d);
 		return c1;
 	}
+	
+	
 	//100~999のランダム数値獲得
+	private static Random random = new Random();
+	
 	public static String getRandom() {
-		Random random = new Random();
+		//Random random = new Random();
 		int randomValue = random.nextInt(900) + 100;
 		String id = Integer.toString(randomValue);
 		return id;
