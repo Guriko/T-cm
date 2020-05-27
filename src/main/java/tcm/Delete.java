@@ -65,7 +65,7 @@ public class Delete extends Input{
 
 
 		//作成したサブフォルダにindファイルを作成
-		indFileName =subDirName +  Const.SLASH + D + Const.UNDERBAR + c1 + Const.UNDERBAR + Const.P + id + Const.IND;
+		indFileName =subDirName +  Const.SLASH + D + Const.UNDERBAR + c1 + Const.UNDERBAR + Const.P + id + Const.UNDERBAR + Const.SERIAL + Const.IND;
 		if(!Utils.mkFile(indFileName)) {
 			return;
 		}

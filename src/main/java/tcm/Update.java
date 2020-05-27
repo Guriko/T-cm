@@ -53,7 +53,7 @@ public class Update extends Input{
 		}
 
 		//作成したサブフォルダにindファイルを作成
-		indFileName =subDirName +  Const.SLASH +  U + Const.UNDERBAR + c1 + Const.UNDERBAR + Const.P + id + Const.IND;
+		indFileName =subDirName +  Const.SLASH +  U + Const.UNDERBAR + c1 + Const.UNDERBAR + Const.P + id + Const.UNDERBAR + Const.SERIAL + Const.IND;
 		if(!Utils.mkFile(indFileName)) {
 			return;
 		}

@@ -4,8 +4,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.nio.file.Path;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import lombok.SneakyThrows;
 import lombok.val;
@@ -13,7 +15,9 @@ import lombok.val;
 class UpdateTest extends Update{
 
 	@Test @SneakyThrows
-	void 引数テスト() {
+	void 引数テスト(@TempDir Path directory) {
+		System.out.println(directory);
+		String tmpdir = directory.toString();
 		val so = System.out;
 		
 		val baos = new ByteArrayOutputStream();
@@ -69,7 +73,8 @@ class UpdateTest extends Update{
 				"サブフォルダを作成できませんでした"));
 		baos.reset();
 		
-		main(new String[] {"C:\\location", "test", "99", "test"});
+		
+		main(new String[] {tmpdir, "test", "99", "test"});
 		
 		System.setOut(so);
 		System.out.println(baos.toString());
