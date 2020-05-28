@@ -3,14 +3,17 @@ package tcm;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Date;
 
 import tcm.commons.Const;
 import tcm.commons.Utils;
 
 public class Update extends Input{
 
-	private static final String U = "U";
-
+	protected static final String U = "U";
+	protected static Date date = new Date();
+	protected static String id = "";
+	
 	public static void main(String[] args) throws IOException{
 		int number = 0;
 		//引数なしの時引数指定を促し処理を終了
@@ -34,10 +37,10 @@ public class Update extends Input{
 		String indFileName = "";
 
 		//日付取得
-		String c1 = Utils.getDate();
+		String c1 = Utils.getDate(date);
 
 		//100~999のランダムな数字を取得
-		String id = Utils.getRandom();
+		id = Utils.getRandom();
 
 		//サブディレクトリ作成
 		subDirName = args[0] + Const.SLASH + U + Const.UNDERBAR + c1 + Const.UNDERBAR + Const.P + id + Const.UNDERBAR + Const.SERIAL;

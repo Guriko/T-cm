@@ -3,14 +3,17 @@ package tcm;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Date;
 
 import tcm.commons.Const;
 import tcm.commons.Utils;
 
 public class Delete extends Input{
 
-	private static final String D = "D";
-
+	protected static final String D = "D";
+	protected static Date date = new Date();
+	protected static String id = "";
+	
 	public static void main(String[] args) throws IOException {
 
 		int number = 0;
@@ -40,14 +43,14 @@ public class Delete extends Input{
 		//		SimpleDateFormat d1 = new SimpleDateFormat("yyyyMMddHHmmss");
 		//		String c1 = d1.format(d); 
 
-		String c1 = Utils.getDate();
+		String c1 = Utils.getDate(date);
 
 
 		//100~999のランダムな数字を取得
 		//		Random random = new Random();
 		//		int randomValue = random.nextInt(900) + 100;
 		//		String id = Integer.toString(randomValue);
-		String id = Utils.getRandom();
+		id = Utils.getRandom();
 
 		//サブディレクトリ作成
 		subDirName = args[0] + Const.SLASH + D + Const.UNDERBAR + c1 + Const.UNDERBAR + Const.P + id + Const.UNDERBAR + Const.SERIAL;

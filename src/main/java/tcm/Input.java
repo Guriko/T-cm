@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Date;
 import java.util.Properties;
 
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +20,9 @@ import tcm.commons.Utils;
 @Slf4j
 public class Input {
 
-	private static final String R = "R";
+	public static final String R = "R";
+	public static Date date = new Date();
+	public static String id = "";
 
 	public static void main(String[] args) throws IOException {
 
@@ -44,11 +47,11 @@ public class Input {
 		int uniqueNumber = Integer.parseInt(proUniqueNumber);
 
 		//日付取得
-		String c1 = Utils.getDate();
-		String c2 = Utils.getDate2();
+		String c1 = Utils.getDate(date);
+		String c2 = Utils.getDate2(date);
 
 		//100~999のランダムな数字を取得
-		String id = Utils.getRandom();
+		id = Utils.getRandom();
 
 		//サブディレクトリ作成
 		subDirName = args[0] + Const.SLASH + R + Const.UNDERBAR + c1 + Const.UNDERBAR + Const.P + id + Const.UNDERBAR + Const.SERIAL;

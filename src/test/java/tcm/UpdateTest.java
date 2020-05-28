@@ -3,14 +3,18 @@ package tcm;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.PrintStream;
 import java.nio.file.Path;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import lombok.SneakyThrows;
 import lombok.val;
+import tcm.commons.Const;
 
 class UpdateTest extends Update{
 
@@ -74,7 +78,49 @@ class UpdateTest extends Update{
 		baos.reset();
 		
 		
+
+		
+		
+		
+		
+		// 任意の日付文字列
+		String inpDateStr = "20160606000000";
+
+		// 取り扱う日付の形にフォーマット設定
+		SimpleDateFormat sdformat = new SimpleDateFormat("yyyyMMddHHmmss");
+
+		// Date型に変換( DateFromatクラスのperse() )
+		Date date = sdformat.parse(inpDateStr);
+		Update.date = date;
+
 		main(new String[] {tmpdir, "test", "99", "test"});
+		
+		String folder  = U + Const.UNDERBAR + "20160606000000" + Const.UNDERBAR + Const.P + id + Const.UNDERBAR + Const.SERIAL;
+		File dir = new File(tmpdir);
+		File[] list = dir.listFiles();
+		for(int i=0; i<list.length; i++) {
+			if(list[i].isDirectory()) {
+				assertEquals(folder,list[i].getName().toString());
+			}
+		}
+		
+		String csvFile = U + Const.UNDERBAR + "20160606000000" + Const.UNDERBAR + Const.P + id + Const.UNDERBAR + Const.SERIAL + Const.CSV;
+		String indFile = U + Const.UNDERBAR + "20160606000000" + Const.UNDERBAR + Const.P + id + Const.UNDERBAR + Const.SERIAL + Const.IND;
+		
+		File dir2 = new File(tmpdir + "\\" +list[0].getName());
+
+		File[] list2 = dir2.listFiles();
+		for(int j=0; j<list2.length; j++) {
+			if(list2[j].getName().contains(".csv")) {
+				assertEquals(csvFile,list2[j].getName().toString());
+			}else if(list2[j].getName().contains(".ind")) {
+				assertEquals(indFile,list2[j].getName().toString());
+			}
+		}
+		
+		
+		
+		
 		
 		System.setOut(so);
 		System.out.println(baos.toString());

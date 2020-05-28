@@ -37,10 +37,10 @@ class UtilsTest {
 		String c5 = d4.format(d3);
 		String c6 = d5.format(d3);
 
-		assertEquals(c1, Utils.getDate());
-		assertEquals(c5, Utils.getDate());
-		assertEquals(c2, Utils.getDate2());
-		assertEquals(c6, Utils.getDate2());
+		assertEquals(c1, Utils.getDate(d));
+		assertEquals(c5, Utils.getDate(d3));
+		assertEquals(c2, Utils.getDate2(d));
+		assertEquals(c6, Utils.getDate2(d3));
 		
 		boolean result = true;
 		for(int i=0;i<1000;i++) {

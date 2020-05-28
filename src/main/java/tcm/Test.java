@@ -1,34 +1,39 @@
 package tcm;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Random;
 
 import lombok.extern.slf4j.Slf4j;
 
 
 @Slf4j
 public class Test {
+	
+	private static Random random = new Random();
+	private static Date d = new Date();
+	
 	public static void main(String...args) throws IOException {
-		Path sourcePath = Paths.get(".\\foo.pdf");
-		Path destinationPath = Paths.get(".\\logs\\bar.pdf");
-
-		try {
-			Files.copy(sourcePath,destinationPath);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		//
 		log.info("Hello World");
-		//		String pOld = ".\\cbd.txt";
-		//		Path path = Paths.get(pOld);
-		//		Path sPath = Paths.get(".\\");
-		//		
-		//		//Files.copy(path, sPath);
-		//		
-		//		
-		//		File fOld = new File(".\\abc.txt");
-		//		File fNew = new File(".\\logs\\cbd.txt");
-		//		Files.move(fOld,fNew);
+		
+		System.out.println(Test.getRandom(random.nextInt(900) + 100));
+		System.out.println(Test.getDate(d));
+	}
+	//100~999のランダム数値獲得
+	
+	
+	public static String getRandom(int random) {
+		//Random random = new Random();
+		//int randomValue = random.nextInt(900) + 100;
+		String id = Integer.toString(random);
+		return id;
+	}
+	
+	//日付獲得
+	
+	public static String getDate(Date date) {
+		SimpleDateFormat d1 = new SimpleDateFormat("yyyyMMddHHmmss");
+		String c1 = d1.format(date);
+		return c1;
 	}
 }

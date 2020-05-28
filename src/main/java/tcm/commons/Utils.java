@@ -28,23 +28,21 @@ public class Utils {
 	}
 	
 	//日付獲得
-	public static String getDate() {
-		Date d = new Date();
+	public static String getDate(Date date) {
 		SimpleDateFormat d1 = new SimpleDateFormat("yyyyMMddHHmmss");
-		String c1 = d1.format(d);
+		String c1 = d1.format(date);
 		return c1;
 	}
 	
-	public static String getDate2() {
-		Date d = new Date();
+	public static String getDate2(Date date) {
 		SimpleDateFormat d1 = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		String c1 = d1.format(d);
+		String c1 = d1.format(date);
 		return c1;
 	}
 	
 	
-	//100~999のランダム数値獲得
-	private static Random random = new Random();
+	//100~999のランダム数値獲得	
+	public static Random random = new Random();
 	
 	public static String getRandom() {
 		//Random random = new Random();
