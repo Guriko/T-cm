@@ -27,11 +27,7 @@ class InputTest extends Input{
 	void 引数テスト(@TempDir Path directory) {
 		//System.out.println(directory);
 		String tmpdir = directory.toString();
-		
-		Path demopath = Paths.get(".\\foo.pdf");
-		if(!Files.exists(demopath)) {
-			Files.createFile(Paths.get(".\\foo.pdf"));
-		}
+
 		
 		val so = System.out;
 
@@ -101,9 +97,5 @@ class InputTest extends Input{
 		
 		System.setOut(so);
 		System.out.println(baos.toString());
-		
-		if(Files.exists(demopath)) {
-			Files.delete(Paths.get(".\\foo.pdf"));
-		}
 	}
 }

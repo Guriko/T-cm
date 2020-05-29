@@ -31,7 +31,12 @@ public class Input {
 			System.out.println("第一引数にフォルダを指定してください。処理を終了します。");
 			return;
 		}
-
+		
+		Path demopath = Paths.get(".\\foo.pdf");
+		if(!Files.exists(demopath)) {
+			Files.createFile(Paths.get(".\\foo.pdf"));
+		}
+		
 		//application.propertiesファイルを呼び出しておく
 		Properties properties = new Properties();
 		String confpath = ".\\application.properties";
