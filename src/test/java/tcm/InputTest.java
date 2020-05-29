@@ -3,9 +3,10 @@ package tcm;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.PrintStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -17,6 +18,10 @@ import lombok.val;
 import tcm.commons.Const;
 
 class InputTest extends Input{
+
+	public static int csv = 0;
+	public static int ind = 0;
+	public static int pdf = 0;
 
 	@Test @SneakyThrows
 	void 引数テスト(@TempDir Path directory) {
@@ -42,7 +47,6 @@ class InputTest extends Input{
 		baos.reset();
 
 
-
 		// 任意の日付文字列
 		String inpDateStr = "20160606000000";
 
@@ -53,33 +57,41 @@ class InputTest extends Input{
 		Date date = sdformat.parse(inpDateStr);
 		Input.date = date;
 
+
 		main(new String[] {tmpdir});
-		
 		String folder  = R + Const.UNDERBAR + "20160606000000" + Const.UNDERBAR + Const.P + id + Const.UNDERBAR + Const.SERIAL;
-		File dir = new File(tmpdir);
-		File[] list = dir.listFiles();
-		for(int i=0; i<list.length; i++) {
-			if(list[i].isDirectory()) {
-				assertEquals(folder,list[i].getName().toString());
-			}
+		Path subDir = Paths.get(tmpdir);
+		Path path = Paths.get(directory + "\\" +R + Const.UNDERBAR + "20160606000000" + Const.UNDERBAR + Const.P + id + Const.UNDERBAR + Const.SERIAL);
+
+		try(val stream1 = Files.list(subDir)){
+			stream1.filter(Files::isDirectory).map(name -> name.getFileName().toString()).forEach(name ->{
+				assertEquals(folder,name);
+			});
 		}
-		
+
+
 		String csvFile = "20160606000000" + Const.UNDERBAR + Const.P + id + Const.CSV;
 		String indFile = "20160606000000" + Const.UNDERBAR + Const.P + id + Const.IND;
 		String pdfFile = "20160606000000" + Const.UNDERBAR + Const.P + id + Const.PDF;
 		
-		File dir2 = new File(tmpdir + "\\" +list[0].getName());
+		try(val stream = Files.list(path)) {
 
-		File[] list2 = dir2.listFiles();
-		for(int j=0; j<list2.length; j++) {
-			if(list2[j].getName().contains(".csv")) {
-				assertEquals(csvFile,list2[j].getName().toString());
-			}else if(list2[j].getName().contains(".ind")) {
-				assertEquals(indFile,list2[j].getName().toString());
-			}else if(list2[j].getName().contains(".pdf")) {
-				assertEquals(pdfFile,list2[j].getName().toString());
-			}
+			stream.filter(Files::isRegularFile).map(name -> name.getFileName().toString()).forEach(name ->{
+				if(name.contains(".csv")) {
+					assertEquals(csvFile,name.toString());
+					InputTest.csv++;
+				}else if(name.contains(".ind")) {
+					assertEquals(indFile,name.toString());
+					InputTest.ind++;
+				}else if(name.contains(".pdf")) {
+					assertEquals(pdfFile,name.toString());
+					InputTest.pdf++;
+				}
+			});
 		}
+		assertEquals(1,InputTest.csv);
+		assertEquals(1,InputTest.ind);
+		assertEquals(1,InputTest.pdf);
 		
 		System.setOut(so);
 		System.out.println(baos.toString());
